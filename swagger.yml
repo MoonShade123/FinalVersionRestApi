@@ -1,0 +1,40 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger Rest Article
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+
+paths:
+  /users:
+    get:
+      operationId: posts.apis.v1.users_crud.read_all
+      tags:
+        - Users
+      summary: Read the entire set of users, sorted by id
+      description: Read the entire set of users, sorted by id
+      responses:
+        200:
+          description: Successfully read users set operation
+          schema:
+            type: array
+            items:
+              properties:
+                user_id:
+                  type: integer
+                  description: Id of the user
+                login:
+                  type: string
+                  description: Login of the user
+                password:
+                  type: string
+                  description: Password of the user
+                timestamp:
+                  type: string
+                  description: Create/Update timestamp of the user
