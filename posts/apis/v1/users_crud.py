@@ -9,7 +9,7 @@ from posts.apis.v1.mappers.user_mapper import UserSchema
 def read_all():
     users = User.query.order_by(User.user_id).all()
     user_schema = UserSchema(many=True)
-    data = user_schema.dump(users).data
+    data = user_schema.dumps(users).data
     return data
 
 
@@ -22,12 +22,13 @@ def read_one(user_id):
     )
     if user is not None:
         user_schema = UserSchema()
-        data = user_schema.dump(user).data
+        data = user_schema.dumps(user).data
         return data
     else:
         abort(404, f"User with Id: {user_id} not found...")
 
 
+@connex_app.route('/api/users', methods=['POST'])
 def create(user):
     login = user.get("login")
     password = user.get("password")
@@ -52,9 +53,9 @@ def update(user_id, user):
     ).one_or_none()
     if update_user is not None:
         update_schema = UserSchema()
-        update = update_schema.load(user, session=db.session).data
-        update.user_id = update_user.user_id
-        db.session.merge(update)
+        updated = update_schema.load(user, session=db.session).data
+        updated.user_id = update_user.user_id
+        db.session.merge(updated)
         db.session.commit()
         data = update_schema.dump(update_user).data
         return data, 200

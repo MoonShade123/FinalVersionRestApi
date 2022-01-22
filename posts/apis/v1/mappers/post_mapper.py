@@ -1,24 +1,19 @@
 from marshmallow import fields
-from config import ma, db
-from posts.models.post_model import Post
+from config import ma
+from posts.apis.v1.mappers.user_mapper import UserSchema
 
 
-class PostSchema(ma.ModelSchema):
-    def __init__(self, **kwargs):
-        super().__init__(strict=True, **kwargs)
-
-        class Meta:
-            model = Post
-            sqla_session = db.session
-
-        users = fields.Nested("PostUserSchema", default=None)
-
-
-class PostUserSchema(ma.ModelSchema):
+class PostUserSchema(ma.Schema):
     def __init__(self, **kwargs):
         super().__init__(strict=True, **kwargs)
 
         user_id = fields.Int()
-        login = fields.Str()
-        password = fields.Str()
-        timestamp = fields.DateTime()
+
+
+class PostSchema(ma.Schema):
+    post_id = fields.Int()
+    author_id = fields.List(fields.Nested(PostUserSchema))
+    title = fields.Str()
+    body = fields.Str()
+    imageUrl = fields.Str()
+    timestamp = fields.DateTime()

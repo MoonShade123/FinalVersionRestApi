@@ -1,21 +1,9 @@
 from marshmallow import fields
 
-from config import ma, db
-from posts.models.user_model import User
+from config import ma
 
 
-class UserSchema(ma.ModelSchema):
-    def __init__(self, **kwargs):
-        super().__init__(strict=True, **kwargs)
-
-        class Meta:
-            model = User
-            sqla_session = db.session
-
-        posts = fields.Nested("UserPostSchema", default=[], many=True)
-
-
-class UserPostSchema(ma.ModelSchema):
+class UserPostSchema(ma.Schema):
     def __init__(self, **kwargs):
         super().__init__(strict=True, **kwargs)
 
@@ -24,4 +12,12 @@ class UserPostSchema(ma.ModelSchema):
     title = fields.Str()
     body = fields.Str()
     imageUrl = fields.Str()
+    timestamp = fields.Str()
+
+
+class UserSchema(ma.ModelSchema):
+    user_id = fields.Int()
+    login = fields.Str()
+    password = fields.Str()
     timestamp = fields.DateTime()
+    posts = fields.List(fields.Nested(UserPostSchema))
