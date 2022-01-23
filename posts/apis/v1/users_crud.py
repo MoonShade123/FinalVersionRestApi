@@ -1,4 +1,4 @@
-from flask import make_response, abort
+from flask import make_response, abort, request
 from config import db, connex_app
 from posts.models.post_model import Post
 from posts.models.user_model import User
@@ -29,7 +29,8 @@ def read_one(user_id):
 
 
 @connex_app.route('/api/users', methods=['POST'])
-def create(user):
+def create():
+    user = request.get_json(force=True)
     login = user.get("login")
     password = user.get("password")
     already_existing = (
@@ -41,13 +42,17 @@ def create(user):
         new_user = user_schema.load(user, session=db.session).data
         db.session.add(new_user)
         db.session.commit()
-        data = user_schema.dump(new_user).data
+        data = user_schema.dumps(new_user).data
         return data, 201
     else:
         abort(409, f"User with this login: {login} already exists...")
 
 
-def update(user_id, user):
+@connex_app.route('/api/users/<int:user_id>', methods=['PUT'])
+def update(user_id):
+    user = request.get_json(force=True)
+    login = user.get('login')
+    password = user.get('password')
     update_user = User.query.filter(
         User.user_id == user_id
     ).one_or_none()
@@ -57,12 +62,13 @@ def update(user_id, user):
         updated.user_id = update_user.user_id
         db.session.merge(updated)
         db.session.commit()
-        data = update_schema.dump(update_user).data
+        data = update_schema.dumps(update_user).data
         return data, 200
     else:
         abort(404, f"User not found with Id: {user_id}...")
 
 
+@connex_app.route('/api/users/<int:user_id>', methods=['DELETE'])
 def delete(user_id):
     user = User.query.filter(User.user_id == user_id).one_or_none()
     if user is not None:

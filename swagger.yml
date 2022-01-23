@@ -38,3 +38,152 @@ paths:
                 timestamp:
                   type: string
                   description: Create/Update timestamp of the user
+
+    post:
+      operationId: posts.apis.v1.users_crud.create
+      tags:
+        - Users
+      summary: Create a user
+      description: Create a new user
+      parameters:
+        - name: user
+          in: body
+          description: User to create
+          required: True
+          schema:
+            type: object
+            properties:
+              login:
+                type: string
+                description: Login of user to create
+              password:
+                type: string
+                description: Password of user to create
+      responses:
+        201:
+          description: Successfully created user
+          schema:
+            properties:
+              user_id:
+                type: integer
+                description: Id of the user
+              login:
+                type: string
+                description: Login of the user
+              password:
+                type: string
+                description: Password of the user
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the user record
+
+  /users/{user_id}:
+    get:
+      operationId: posts.apis.v1.users_crud.read_one
+      tags:
+        - Users
+      summary: Read one user by Id
+      description: Read one user by Id
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of the user to get
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read user from user data operation
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: integer
+                description: Id of the user
+              login:
+                type: string
+                description: Login of the user
+              password:
+                type: string
+                description: Password of the user
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the user record
+              posts:
+                type: array
+                items:
+                  properties:
+                    author_id:
+                      type: integer
+                      description: Id of user this post is associated with
+                    post_id:
+                      type: integer
+                      description: Id of this post
+                    title:
+                      type: string
+                      description: Title of this post
+                    body:
+                      type: string
+                      description: Body of this post
+                    imageUrl:
+                      type: string
+                      description: ImageURL of this post
+                    timestamp:
+                      type: string
+                      description: Create/Update timestamp of this post
+
+    put:
+      operationId: posts.apis.v1.users_crud.update
+      tags:
+        - Users
+      summary: Update a user
+      description: Update a user
+      parameters:
+        - name: user_id
+          in: path
+          description: Id the user to update
+          type: integer
+          required: True
+        - name: user
+          in: body
+          schema:
+            type: object
+            properties:
+              login:
+                type: string
+                description: Login of the user
+              password:
+                type: string
+                description: Password of the user
+      responses:
+        200:
+          description: Successfully updated user
+          schema:
+            properties:
+              user_id:
+                type: integer
+                description: Id of the user in the database
+              login:
+                type: string
+                description: Login of the user
+              password:
+                type: string
+                description: Password of the user
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the user record
+
+    delete:
+      operationId: posts.apis.v1.users_crud.delete
+      tags:
+        - Users
+      summary: Delete a user from the user list
+      description: Delete a user
+      parameters:
+        - name: user_id
+          in: path
+          type: integer
+          description: Id of the user to delete
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a user
