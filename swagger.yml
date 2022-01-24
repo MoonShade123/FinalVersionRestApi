@@ -188,7 +188,7 @@ paths:
         200:
           description: Successfully deleted a user
 
-  /posts:
+  /users/posts:
     get:
       operationId: posts.apis.v1.posts_crud.read_all_posts
       tags:
@@ -220,3 +220,163 @@ paths:
                 timestamp:
                   type: string
                   description: Create/Update timestamp of the post
+
+  /users/{user_id}/posts:
+    post:
+      operationId: posts.apis.v1.posts_crud.create_post
+      tags:
+        - Posts
+      summary: Create a post associated with a user
+      description: Create a post associated with a user
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of user associated with post
+          type: integer
+          required: True
+        - name: post
+          in: body
+          description: Text content of the post to create
+          required: True
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+                description: Text of the post to create
+      responses:
+        201:
+          description: Successfully created a post
+          schema:
+            properties:
+              author_id:
+                type: integer
+                description: Id of the user associated with the post
+              post_id:
+                type: integer
+                description: Id of the created post
+              title:
+                type: string
+                description: Title content of the post
+              body:
+                type: string
+                description: Body content of the post
+              imageUrl:
+                type: string
+                description: ImageUrl of the post
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the user record
+
+  /users/{user_id}/posts/{post_id}:
+    get:
+      operationId: posts.apis.v1.posts_crud.read_post_by_id
+      tags:
+        - Posts
+      summary: Read a particular post associated with a user
+      description: Read a particular post associated with a user
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of user associated with post
+          type: integer
+          required: True
+        - name: post_id
+          in: path
+          description: Id of post
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read post for a user
+          schema:
+            type: object
+            properties:
+              post_id:
+                type: integer
+                description: Id of the post
+              author_id:
+                type: integer
+                description: Id of the user, post associated with
+              title:
+                type: string
+                description: Title content of the post
+              body:
+                type: string
+                description: Body content of the post
+              imageUrl:
+                type: string
+                description: ImageUrl of the post
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the user record
+
+    put:
+      operationId: posts.apis.v1.posts_crud.update_post
+      tags:
+        - Posts
+      summary: Update a post associated with a user
+      description: Update a post associated with a user
+      parameters:
+        - name: user_id
+          in: path
+          description: Id the user to update
+          type: integer
+          required: True
+        - name: post_id
+          in: path
+          description: Id of the post associated with a user
+          type: integer
+          required: True
+        - name: post
+          in: body
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+                description: Text content of the post to updated
+      responses:
+        200:
+          description: Successfully updated post
+          schema:
+            properties:
+              post_id:
+                type: integer
+                description: Id of the post
+              author_id:
+                type: integer
+                description: Id of the user, post associated with
+              title:
+                type: string
+                description: Title content of the post
+              body:
+                type: string
+                description: Body content of the post
+              imageUrl:
+                type: string
+                description: ImageUrl of the post
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the user record
+
+    delete:
+      operationId: posts.apis.v1.posts_crud.delete_post
+      tags:
+        - Posts
+      summary: Delete a post associated with a user
+      description: Delete a post associated with a user
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of user associated with post
+          type: integer
+          required: True
+        - name: post_id
+          in: path
+          description: Id of post
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully deleted a post
