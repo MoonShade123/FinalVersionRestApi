@@ -1,6 +1,7 @@
 import config
+import logging
 
-# App instance
+
 connex_app = config.connex_app
 
 
@@ -12,6 +13,8 @@ def home():
 if __name__ == "__main__":
     # Read swagger file
     connex_app.add_api("swagger.yml", arguments={'api_local': 'local_value'})
+    logging.basicConfig(level="DEBUG", filename="app_log.log")
+    logger = logging.getLogger()
     connex_app.run(debug=True, port=8000)
 
 

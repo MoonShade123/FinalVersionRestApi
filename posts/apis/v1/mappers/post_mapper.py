@@ -11,9 +11,16 @@ class PostSchema(ma.ModelSchema):
         model = Post
         sqla_session = db.session
 
-#    author_id = fields.Nested("PostUserSchema", default=[])
-#
-#
-#class PostUserSchema(ma.ModelSchema):
-#    user_id = fields.Int()
+    author_id = fields.Nested("PostUserSchema", default=[])
+    liked = fields.Nested("PostLikeSchema", default=[], many=True)
+
+
+class PostUserSchema(ma.ModelSchema):
+    user_id = fields.Int()
+
+
+class PostLikeSchema(ma.ModelSchema):
+    like_id = fields.Int()
+    user_id = fields.Int()
+    post_id = fields.Int()
 

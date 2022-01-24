@@ -14,14 +14,6 @@ class Post(db.Model):
     timestamp = db.Column(
         db.DateTime, default=datetime.utcnow(), onupdate=datetime.utcnow()
     )
-#    likes = db.relationship(
-#        "Like",
-#        backref="user",
-#        cascade="all, delete, delete-orphan",
-#        single_parent=True,
-#        order_by="desc(User.timestamp)"
-#    )
-
 
 
 

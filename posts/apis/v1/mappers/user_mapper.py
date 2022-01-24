@@ -25,3 +25,4 @@ class UserPostSchema(ma.ModelSchema):
     body = fields.Str()
     imageUrl = fields.Str()
     timestamp = fields.Str()
+
