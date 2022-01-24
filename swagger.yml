@@ -241,9 +241,15 @@ paths:
           schema:
             type: object
             properties:
-              content:
+              title:
                 type: string
-                description: Text of the post to create
+                description: Title content of the post
+              body:
+                type: string
+                description: Body content of the post
+              imageUrl:
+                type: string
+                description: ImageUrl of the post
       responses:
         201:
           description: Successfully created a post
@@ -333,9 +339,15 @@ paths:
           schema:
             type: object
             properties:
-              content:
+              title:
                 type: string
-                description: Text content of the post to updated
+                description: Title content of the post
+              body:
+                type: string
+                description: Body content of the post
+              imageUrl:
+                type: string
+                description: ImageUrl of the post
       responses:
         200:
           description: Successfully updated post
