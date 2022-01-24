@@ -6,7 +6,7 @@ connex_app = config.connex_app
 
 @connex_app.route("/")
 def home():
-    return "Me"
+    return "<h1>This is main page<h1>"
 
 
 if __name__ == "__main__":

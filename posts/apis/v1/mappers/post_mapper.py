@@ -11,10 +11,9 @@ class PostSchema(ma.ModelSchema):
         model = Post
         sqla_session = db.session
 
-    author_id = fields.Nested("PostUserSchema", default=None)
+#    author_id = fields.Nested("PostUserSchema", default=[])
+#
+#
+#class PostUserSchema(ma.ModelSchema):
+#    user_id = fields.Int()
 
-
-class PostUserSchema(ma.ModelSchema):
-    user_id = fields.Int()
-    login = fields.Str()
-    password = fields.Str()

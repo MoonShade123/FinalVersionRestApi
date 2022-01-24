@@ -14,7 +14,7 @@ basePath: /api
 paths:
   /users:
     get:
-      operationId: posts.apis.v1.users_crud.read_all
+      operationId: posts.apis.v1.users_crud.read_all_users
       tags:
         - Users
       summary: Read the entire set of users, sorted by id
@@ -40,7 +40,7 @@ paths:
                   description: Create/Update timestamp of the user
 
     post:
-      operationId: posts.apis.v1.users_crud.create
+      operationId: posts.apis.v1.users_crud.create_user
       tags:
         - Users
       summary: Create a user
@@ -79,7 +79,7 @@ paths:
 
   /users/{user_id}:
     get:
-      operationId: posts.apis.v1.users_crud.read_one
+      operationId: posts.apis.v1.users_crud.read_one_user
       tags:
         - Users
       summary: Read one user by Id
@@ -132,7 +132,7 @@ paths:
                       description: Create/Update timestamp of this post
 
     put:
-      operationId: posts.apis.v1.users_crud.update
+      operationId: posts.apis.v1.users_crud.update_user
       tags:
         - Users
       summary: Update a user
@@ -173,7 +173,7 @@ paths:
                 description: Creation/Update timestamp of the user record
 
     delete:
-      operationId: posts.apis.v1.users_crud.delete
+      operationId: posts.apis.v1.users_crud.delete_user
       tags:
         - Users
       summary: Delete a user from the user list
@@ -187,3 +187,36 @@ paths:
       responses:
         200:
           description: Successfully deleted a user
+
+  /posts:
+    get:
+      operationId: posts.apis.v1.posts_crud.read_all_posts
+      tags:
+        - Posts
+      summary: Read the entire set of posts for all users, sorted by Id
+      description: Read the entire set of posts for all user, sorted by Id
+      responses:
+        200:
+          description: Successfully read posts for all users operation
+          schema:
+            type: array
+            items:
+              properties:
+                post_id:
+                  type: integer
+                  description: Id of the note
+                author_id:
+                  type: integer
+                  description: Id of the author
+                title:
+                  type: string
+                  description: Title of the post
+                body:
+                  type: string
+                  description: Body of the post
+                imageUrl:
+                  type: string
+                  description: imageUrl of the post
+                timestamp:
+                  type: string
+                  description: Create/Update timestamp of the post

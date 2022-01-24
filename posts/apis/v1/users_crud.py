@@ -6,7 +6,7 @@ from posts.apis.v1.mappers.user_mapper import UserSchema
 
 
 @connex_app.route('/api/users', methods=['GET'])
-def read_all():
+def read_all_users():
     users = User.query.order_by(User.user_id).all()
     user_schema = UserSchema(many=True)
     data = user_schema.dumps(users).data
@@ -14,7 +14,7 @@ def read_all():
 
 
 @connex_app.route('/api/users/<int:user_id>', methods=['GET'])
-def read_one(user_id):
+def read_one_user(user_id):
     user = (
         User.query.filter(User.user_id == user_id)
         .outerjoin(Post)
@@ -29,7 +29,7 @@ def read_one(user_id):
 
 
 @connex_app.route('/api/users', methods=['POST'])
-def create():
+def create_user():
     user = request.get_json(force=True)
     login = user.get("login")
     password = user.get("password")
@@ -49,27 +49,27 @@ def create():
 
 
 @connex_app.route('/api/users/<int:user_id>', methods=['PUT'])
-def update(user_id):
+def update_user(user_id):
     user = request.get_json(force=True)
     login = user.get('login')
     password = user.get('password')
-    update_user = User.query.filter(
+    updated_user = User.query.filter(
         User.user_id == user_id
     ).one_or_none()
-    if update_user is not None:
+    if updated_user is not None:
         update_schema = UserSchema()
         updated = update_schema.load(user, session=db.session).data
-        updated.user_id = update_user.user_id
+        updated.user_id = updated_user.user_id
         db.session.merge(updated)
         db.session.commit()
-        data = update_schema.dumps(update_user).data
+        data = update_schema.dumps(updated_user).data
         return data, 200
     else:
         abort(404, f"User not found with Id: {user_id}...")
 
 
 @connex_app.route('/api/users/<int:user_id>', methods=['DELETE'])
-def delete(user_id):
+def delete_user(user_id):
     user = User.query.filter(User.user_id == user_id).one_or_none()
     if user is not None:
         db.session.delete(user)

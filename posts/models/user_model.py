@@ -17,6 +17,6 @@ class User(db.Model):
         backref="user",
         cascade="all, delete, delete-orphan",
         single_parent=True,
-        order_by="desc(Post.timestamp)"
+        order_by="desc(Post.post_id)"
     )
 
